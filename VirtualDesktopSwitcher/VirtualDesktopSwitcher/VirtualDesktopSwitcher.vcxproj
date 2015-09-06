@@ -18,6 +18,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="VirtualDesktops.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="VirtualDesktopSwitcher.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0A37ACB5-E7BC-4368-BA23-7C13C5F7FC40}</ProjectGuid>
     <RootNamespace>VirtualDesktopSwitcher</RootNamespace>
@@ -117,8 +123,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
