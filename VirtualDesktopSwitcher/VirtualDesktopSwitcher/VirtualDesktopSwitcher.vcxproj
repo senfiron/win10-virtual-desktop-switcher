@@ -19,10 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="VirtualDesktops.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VirtualDesktopSwitcher.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VirtualDesktopSwitcher.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0A37ACB5-E7BC-4368-BA23-7C13C5F7FC40}</ProjectGuid>
