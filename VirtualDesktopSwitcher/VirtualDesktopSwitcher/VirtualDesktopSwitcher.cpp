@@ -17,7 +17,7 @@ HRESULT GetVirtualDesktopManager(IVirtualDesktopManagerInternal** ppDesktopManag
     return hr;
 }
 
-HRESULT SwitchVirtualDesktop(IVirtualDesktopManagerInternal *pDesktopManager)
+HRESULT SwitchVirtualDesktop(IVirtualDesktopManagerInternal *pDesktopManager, bool reverse = false)
 {
     IVirtualDesktop *pCurrentDesktop = nullptr;
     HRESULT hr = pDesktopManager->GetCurrentDesktop(&pCurrentDesktop);
@@ -26,7 +26,7 @@ HRESULT SwitchVirtualDesktop(IVirtualDesktopManagerInternal *pDesktopManager)
     {
         IVirtualDesktop *pNextDesktop = nullptr;
 
-        AdjacentDesktop direction = AdjacentDesktop::RightDirection;
+        AdjacentDesktop direction = reverse ? AdjacentDesktop::LeftDirection : AdjacentDesktop::RightDirection;
         hr = pDesktopManager->GetAdjacentDesktop(pCurrentDesktop, direction, &pNextDesktop);
         
         if (FAILED(hr))
@@ -36,7 +36,17 @@ HRESULT SwitchVirtualDesktop(IVirtualDesktopManagerInternal *pDesktopManager)
 
             if (SUCCEEDED(hr))
             {
-                hr = pObjectArray->GetAt(0, __uuidof(IVirtualDesktop), (void**)&pNextDesktop);
+                int nextIndex = 0;
+                if (reverse)
+                {
+                    UINT count;
+                    hr = pObjectArray->GetCount(&count);
+
+                    if (SUCCEEDED(hr))
+                        nextIndex = count - 1;
+                }
+
+                hr = pObjectArray->GetAt(nextIndex, __uuidof(IVirtualDesktop), (void**)&pNextDesktop);
                 pObjectArray->Release();
             }
         }
@@ -61,6 +71,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     if (SUCCEEDED(hr))
     {
         SwitchVirtualDesktop(pDesktopManager);
+        ::Sleep(1000);
+        SwitchVirtualDesktop(pDesktopManager, true);
+
         pDesktopManager->Release();
     }
 
